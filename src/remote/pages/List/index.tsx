@@ -43,8 +43,13 @@ export function List() {
             })
         })
 
-        const data = makeStompService().subscribe((a: any) => {
-            console.log('ggg', a)
+        const data = makeStompService('')
+        console.log('data', data)
+        // data.
+        data.subscribe('/topic/tracker')
+        data.subscribe('/topic/ordernotify')
+        data.receive((aa: any) => {
+            console.log('dddd', aa)
         })
     }, [])
     return (

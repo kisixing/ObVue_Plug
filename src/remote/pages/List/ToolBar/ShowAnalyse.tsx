@@ -8,6 +8,7 @@ export const ShowAnalyse: FunctionComponent<IPropsWithData> = (props) => {
     const { itemData } = props
     const data = itemData && itemData.data
     const pregnancy = itemData && itemData.pregnancy
+    const id = itemData && itemData.id
     const [visible, setVisible] = useState(false)
     const toggle = () => setVisible(!visible)
     const Title = () => {
@@ -22,7 +23,7 @@ export const ShowAnalyse: FunctionComponent<IPropsWithData> = (props) => {
         <>
             <Button type="link" icon={<UserOutlined />} onClick={toggle}>分析</Button>
             <Modal getContainer={false} footer={null} title={<Title />} width="80vw" centered bodyStyle={{ width: '80vw', height: '80vh' }} visible={visible} onCancel={toggle}>
-                <Ctg_Analyse docid={data && data.docid} />
+                <Ctg_Analyse docid={data && data.docid} id={id} type="remote"/>
             </Modal>
         </>
     )

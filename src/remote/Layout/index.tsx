@@ -21,13 +21,15 @@ function App(props: any) {
     Hooks.useLogin(`http://${`transfer.lian-med.com:9987`}/api`, { username: 'admin', password: 'admin' }, () => {
         setOk(true)
     })
+    console.log('zz',require('@lianmed/utils'))
+
     return (
         <Layout>
             <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
                 <Menu
                     theme="dark"
                     mode="horizontal"
-                    defaultSelectedKeys={['2']}
+                    defaultSelectedKeys={['1']}
                     style={{ lineHeight: '64px' }}
                 >
                     <Menu.Item key="1"><Link to="/List">待诊列表</Link></Menu.Item>
