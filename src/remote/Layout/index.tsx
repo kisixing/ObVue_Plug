@@ -5,8 +5,12 @@ import { ipcRenderer, remote } from "electron";
 import { config } from "@lianmed/request";
 import { Link } from 'react-router-dom';
 import { Hooks } from "@lianmed/utils";
+import { Switch, Route, HashRouter, withRouter } from "react-router-dom";
+
 const { Header, Content, Footer } = Layout;
-function App(props: any) {
+const App = withRouter(function (props) {
+    const location = props.location.pathname
+    const [selectedKey, setSelectedKey] = useState(location)
     const [ok, setOk] = useState(false)
     // useEffect(() => {
     //     const main = remote.getGlobal('windows').main
@@ -21,7 +25,7 @@ function App(props: any) {
     Hooks.useLogin(`http://${`transfer.lian-med.com:9987`}/api`, { username: 'admin', password: 'admin' }, () => {
         setOk(true)
     })
-    console.log('zz',require('@lianmed/utils'))
+    console.log('zz', require('@lianmed/utils'))
 
     return (
         <Layout>
@@ -29,12 +33,13 @@ function App(props: any) {
                 <Menu
                     theme="dark"
                     mode="horizontal"
-                    defaultSelectedKeys={['1']}
+                    onSelect={e => setSelectedKey(e.key)}
+                    selectedKeys={[selectedKey]}
                     style={{ lineHeight: '64px' }}
                 >
-                    <Menu.Item key="1"><Link to="/">待诊列表</Link></Menu.Item>
-                    <Menu.Item key="2"><Link to="/History">判图历史</Link></Menu.Item>
-                    <Menu.Item key="3">nav 3</Menu.Item>
+                    <Menu.Item key="/"><Link to="/">待诊列表</Link></Menu.Item>
+                    <Menu.Item key="/History"><Link to="/History">判图历史</Link></Menu.Item>
+                    {/* <Menu.Item key="3">nav 3</Menu.Item> */}
                 </Menu>
             </Header>
             <Content className="site-layout" style={{ height: 'calc(100vh - 64px)', marginTop: 64 }}>
@@ -43,7 +48,7 @@ function App(props: any) {
             </Content>
         </Layout>
     );
-}
+})
 
 
 
