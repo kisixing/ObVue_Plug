@@ -16,37 +16,38 @@ export function List() {
             setDat(r)
             Promise.all(r.map(_ => {
                 const note = _.prenatalvisit.ctgexam.note
-                return request.get(`/ctg-exams-data/${note}`).catch(() => { })
-            })).then((d: any) => {
+                return request.get(`/ctg-exams-data/${note}`).catch(() => null)
+            }))
+                .then(_ => _.filter(_ => !!_))
+                .then((d: any) => {
 
-                const _items = r.map((_, index) => {
-                    const note = _.prenatalvisit.ctgexam.note
+                    const _items = r.map((_, index) => {
+                        const note = _.prenatalvisit.ctgexam.note
 
-                    const data: IItemData = {
-                        id: _.id,
-                        bedname: '',
-                        data: {
-                            ...d[index],
-                            pregnancy: _.pregnancy,
-                            docid: note
-                        },
-                        unitId: '',
-                        prenatalvisit: _.prenatalvisit,
-                        pregnancy: _.pregnancy
-                    }
-                    return data
+                        const data: IItemData = {
+                            id: _.id,
+                            bedname: '',
+                            data: {
+                                ...d[index],
+                                pregnancy: _.pregnancy,
+                                docid: note
+                            },
+                            unitId: '',
+                            prenatalvisit: _.prenatalvisit,
+                            pregnancy: _.pregnancy
+                        }
+                        return data
+                    })
+                    setItems(
+                        _items
+                    )
+
                 })
-                setItems(
-                    _items
-                )
-
-            })
         })
 
         const data = makeStompService('')
         console.log('data', data)
         // data.
-        data.subscribe('/topic/tracker')
         data.subscribe('/topic/ordernotify')
         data.receive((aa: any) => {
             console.log('dddd', aa)

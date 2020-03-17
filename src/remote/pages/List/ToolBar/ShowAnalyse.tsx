@@ -22,7 +22,7 @@ export const ShowAnalyse: FunctionComponent<IPropsWithData> = (props) => {
     return (
         <>
             <Button type="link" icon={<UserOutlined />} onClick={toggle}>分析</Button>
-            <Modal getContainer={false} footer={null} title={<Title />} width="80vw" centered bodyStyle={{ width: '80vw', height: '80vh' }} visible={visible} onCancel={toggle}>
+            <Modal getContainer={false} footer={null} title={<Title />} width='88vw' style={{minWidth:1200}} centered bodyStyle={{ width: '100%', height: '80vh' }} visible={visible} onCancel={toggle}>
                 <Ctg_Analyse docid={data && data.docid} id={id} type="remote"/>
             </Modal>
         </>

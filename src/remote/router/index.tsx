@@ -9,7 +9,7 @@ export const Router: React.FC = props => {
         <HashRouter >
             <Layout>
                 <Switch>
-                    <Route path="/List">
+                    <Route path="/">
                         <List />
                     </Route>
                     <Route path="/History">

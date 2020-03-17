@@ -32,7 +32,7 @@ function App(props: any) {
                     defaultSelectedKeys={['1']}
                     style={{ lineHeight: '64px' }}
                 >
-                    <Menu.Item key="1"><Link to="/List">待诊列表</Link></Menu.Item>
+                    <Menu.Item key="1"><Link to="/">待诊列表</Link></Menu.Item>
                     <Menu.Item key="2"><Link to="/History">判图历史</Link></Menu.Item>
                     <Menu.Item key="3">nav 3</Menu.Item>
                 </Menu>
