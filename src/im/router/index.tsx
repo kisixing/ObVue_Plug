@@ -2,7 +2,7 @@ import React from 'react'
 import { Switch, Route, HashRouter } from "react-router-dom";
 
 import Layout from '../Layout'
-import { List } from "../pages/List";
+import { L } from "../pages/List";
 import { History } from "../pages/History";
 export const Router: React.FC = props => {
     return <>
@@ -10,11 +10,11 @@ export const Router: React.FC = props => {
             <Layout>
                 <Switch>
                     <Route path="/" exact >
-                        <List />
+                        <L />
                     </Route>
-                    <Route path="/History">
+                    {/* <Route path="/History">
                         <History />
-                    </Route>
+                    </Route> */}
                 </Switch>
             </Layout>
         </HashRouter>

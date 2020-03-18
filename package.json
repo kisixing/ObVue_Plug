@@ -75,7 +75,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "link:lianmed": "npm link @lianmed/request @lianmed/lmg @lianmed/f_types @lianmed/utils @lianmed/pages react",
+    "link:lianmed": "npm link @lianmed/request @lianmed/lmg @lianmed/f_types @lianmed/utils @lianmed/pages @lianmed/im react",
     "postinstall": "yarn link:lianmed"
   },
   "eslintConfig": {

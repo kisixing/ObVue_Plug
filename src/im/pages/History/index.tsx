@@ -4,7 +4,7 @@ import { Table, Button, Modal } from 'antd';
 import { remote } from "@lianmed/f_types";
 import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
 
-import { List } from "../List";
+import { L } from "../List";
 import { event } from '@lianmed/utils';
 import { ANALYSE_SUCCESS_TYPE } from '@lianmed/pages';
 type t = remote.serviceorders.get
@@ -135,7 +135,7 @@ export function History() {
     <div style={{ height: '100%', padding: 12 }} accessKey="id">
       <Table bordered loading={loading} dataSource={dat} columns={columns} />
       <Modal footer={null} maskClosable={false} title={`${item && item.pregnancy && item.pregnancy.name}的档案详情`} width={1000}  visible={visible} onCancel={() => setVisible(!visible)} destroyOnClose>
-        <List heigth={600} listLayout={[1, 1]} data={item ? [item] : []} />
+        <L heigth={600} listLayout={[1, 1]} data={item ? [item] : []} />
       </Modal>
     </div>
   );
