@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import request from "@lianmed/request";
-import { Col, Row } from 'antd';
+import { Col, Pagination } from 'antd';
 import { remote } from "@lianmed/f_types";
 import { Ctg_Layout } from "@lianmed/pages";
 import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
@@ -18,11 +18,11 @@ export function List(props: IProps) {
     const [items, setItems] = useState<IItemData[]>(data)
     const [contentHeight, setcontentHeight] = useState(heigth || (document.querySelector('main') || { clientHeight: 0 }).clientHeight)
     const [loading, setLoading] = useState(false)
-
+    const [page, setPage] = useState(0)
     const init = () => {
         if (data.length) return
         setLoading(true)
-        request.get('/serviceorders?type.equals=CTGAPPLY&diagnosis.specified=false').then((r: remote.serviceorders.get[]) => {
+        request.get(`/serviceorders?type.equals=CTGAPPLY&diagnosis.specified=false&size=4&page=${page}`).then((r: remote.serviceorders.get[]) => {
             setDat(r)
             Promise.all(r.map(_ => {
                 const note = _.prenatalvisit.ctgexam.note
@@ -33,7 +33,6 @@ export function List(props: IProps) {
 
                     const _items = r.map((_, index) => {
                         const note = _.prenatalvisit.ctgexam.note
-
                         const data: IItemData = {
                             id: _.id,
                             bedname: '',
@@ -62,10 +61,17 @@ export function List(props: IProps) {
         return () => {
             event.off(ANALYSE_SUCCESS_TYPE, init)
         }
-    }, [])
+    }, [page])
     return (
         <div style={{ height: '100%' }}>
-            <Ctg_Layout loading={loading} RenderIn={ToolBar} items={items} contentHeight={contentHeight} listLayout={listLayout} />
+            <div style={{ height: 'calc(100% - 50px)' }}>
+                <Ctg_Layout loading={loading} RenderIn={ToolBar} items={items} contentHeight={contentHeight} listLayout={listLayout} />
+            </div>
+            <Pagination
+                style={{ margin: 9, float: 'right' }}
+                onChange={e => setPage(e + 1)}
+                total={dat.length}
+            />
         </div>
     );
 }

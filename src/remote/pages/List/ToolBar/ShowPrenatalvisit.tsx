@@ -31,12 +31,12 @@ export const ShowPrenatalvisit: FunctionComponent<IPropsWithData> = (props) => {
                     </Form.Item>
                     <Form.Item label="历史诊断">
                         {
-                            history.map((_, i) => (
-                                <div style={{lineHeight:'30px'}}>
+                            Array.isArray(history) ? history.map((_, i) => (
+                                <div key={i.toString()} style={{ lineHeight: '30px' }}>
                                     <span>{i + 1}、</span>
                                     <span>{_.diagnosistxt}</span>
                                 </div>
-                            ))
+                            )) : null
                         }
                     </Form.Item>
                 </Form>

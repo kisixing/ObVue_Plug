@@ -212,7 +212,9 @@ function copyPublicFolder() {
   fs.copySync(paths.appPublic, paths.appBuild, {
     dereference: true,
     filter: file => {
-      return file !== paths.appHtml && entry.some(_ => file.includes(_))
+      return true
+      // console.log('----------',file, file !== paths.appHtml && entry.some(_ => file.includes(_)))
+      // return file !== paths.appHtml && entry.some(_ => file.includes(_))
     },
   });
 }

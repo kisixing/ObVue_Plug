@@ -1,50 +1,67 @@
-import React from 'react';
-import './App.css';
-import { Nav, INavLink } from 'office-ui-fabric-react/lib/Nav';
+import React from "react";
+import { Layout, Menu } from 'antd';
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+  UploadOutlined,
+} from '@ant-design/icons';
+import 'antd/dist/antd.css'
+const { Header, Sider, Content } = Layout;
 
-function App() {
-  console.log(process.env)
-  
-  return (
-    <div >
-      <header>
+export default class SiderDemo extends React.Component {
+  state = {
+    collapsed: false,
+    name: 'im'
+  };
 
-        <Nav
-          onLinkClick={(ev, item) => {
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
+  };
 
-          }}
-          selectedKey="key3"
-          ariaLabel="Nav basic example"
-          styles={{
-            root: {
-              width: 208,
-              height: 350,
-              boxSizing: 'border-box',
-              border: '1px solid #eee',
-              overflowY: 'auto'
-            }
-          }}
-          groups={[
+  render() {
+    return (
+      <Layout style={{ height: '100vh' }}>
+        <Sider trigger={null} collapsible collapsed={this.state.collapsed} theme="light">
+          <div className="logo" />
+          <Menu mode="inline" selectedKeys={[this.state.name]} onSelect={e => this.setState({ name: e.key })}>
             {
-              links:  JSON.parse((process.env.REACT_APP_ENTRY || '[]')).map((_: any) => (
-                {
-                  name: _,
-                  expandAriaLabel: 'Expand Home section',
-                  collapseAriaLabel: 'Collapse Home section',
-                  url:`/${_}/index.html`
-                }
-              ))
+              (JSON.parse(process.env.REACT_APP_ENTRY as string) as string[])
+              .filter(_ => _ !== 'main')
+              .map(_ => {
+                return (
+                  <Menu.Item key={_}>
+                    <UserOutlined />
+                    <span>{_}</span>
+                  </Menu.Item>
+                )
+              })
             }
-          ]}
-        />
-      </header>
-    </div>
-  );
+
+          </Menu>
+        </Sider>
+        <Layout className="site-layout">
+          <Header className="site-layout-background" style={{ padding: 0 }}>
+            {React.createElement(this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
+              className: 'trigger',
+              onClick: this.toggle,
+            })}
+          </Header>
+          <Content
+            className="site-layout-background"
+            style={{
+              margin: '12px',
+              minHeight: 280,
+              background:'#fff'
+            }}
+          >
+            <iframe frameBorder="0" height="100%" width="100%" src={`http://localhost:3000/${this.state.name}/index.html`} />
+          </Content>
+        </Layout>
+      </Layout>
+    );
+  }
 }
-
-export default App;
-
-
-
-
-

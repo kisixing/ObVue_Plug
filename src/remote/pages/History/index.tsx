@@ -133,7 +133,7 @@ export function History() {
   const columns = getColumns(fn)
   return (
     <div style={{ height: '100%', padding: 12 }} accessKey="id">
-      <Table bordered loading={loading} dataSource={dat} columns={columns} />
+      <Table rowKey="id" bordered loading={loading} dataSource={dat} columns={columns} />
       <Modal footer={null} maskClosable={false} title={`${item && item.pregnancy && item.pregnancy.name}的档案详情`} width={1000}  visible={visible} onCancel={() => setVisible(!visible)} destroyOnClose>
         <List heigth={600} listLayout={[1, 1]} data={item ? [item] : []} />
       </Modal>

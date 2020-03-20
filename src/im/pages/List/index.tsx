@@ -1,57 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import request from "@lianmed/request";
-import { Badge, List, Avatar } from 'antd';
-import { remote } from "@lianmed/f_types";
-import { Ctg_Layout } from "@lianmed/pages";
-import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
-import { useI } from "@lianmed/im";
-interface IProps {
-    data?: IItemData[]
-    heigth?: number
-    listLayout?: number[]
-}
-export function L(props: IProps) {
-    const { chatMessage, contacts } = useI()
-    const init = () => {
+import React from 'react'
+import { Tabs } from 'antd';
+import { MessageOutlined, AndroidOutlined } from '@ant-design/icons';
+import { Chat } from "./Chat/index";
+const { TabPane } = Tabs;
 
-    }
-    useEffect(() => {
-        init()
+export const L = () => (
+    <Tabs defaultActiveKey="1" style={{ height: '100%', background: '#fff', padding: 12, borderRadius: 2, overflowY: 'scroll',  }}>
+        <TabPane style={{ height: 'calc(100vh - 86px)', display: 'flex',  border:'1px solid #eee'}}
 
-    }, [])
-    return (
-        <div style={{ height: '100%' }}>
-            <div style={{ background: '#fff', width: 300, height: '100%', padding: 6 }}>
-                <List
-
-                    itemLayout="horizontal"
-                    dataSource={contacts}
-                    renderItem={item => (
-                        <List.Item>
-
-
-                            <List.Item.Meta
-                                avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                title={
-                                    <div style={{display:'flex',justifyContent:'space-between'}}>
-                                        <span>{item.name}</span>
-                                        <Badge count={item.unread}>
-                                        </Badge>
-
-                                    </div>
-                                }
-                                description={item.latestMessage}
-                            />
-
-                        </List.Item>
-                    )}
-                />
-            </div>
-        </div>
-    );
-}
-
-export default L
-
-
-
+            tab={
+                <span>
+                    <MessageOutlined />
+                    <span>待回复</span>
+                </span>
+            }
+            key="1"
+        >
+            <Chat />
+        </TabPane>
+        <TabPane
+            tab={
+                <span>
+                    <AndroidOutlined />
+                    <span>待接入</span>
+                </span>
+            }
+            key="2"
+        >
+            <span>Tab 2</span>
+        </TabPane>
+    </Tabs>
+);

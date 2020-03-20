@@ -64,7 +64,7 @@ module.exports = function (webpackEnv) {
   // Omit trailing slash as %PUBLIC_URL%/xyz looks better than %PUBLIC_URL%xyz.
   // Get environment variables to inject into our app.
   const env = getClientEnvironment(paths.publicUrlOrPath.slice(0, -1));
-
+  const entryMap = JSON.parse(env.raw.REACT_APP_MAP)
   // common function to get style loaders
   const getStyleLoaders = (cssOptions, preProcessor) => {
     const loaders = [
@@ -279,15 +279,15 @@ module.exports = function (webpackEnv) {
       // Automatically split vendor and commons
       // https://twitter.com/wSokra/status/969633336732905474
       // https://medium.com/webpack/webpack-4-code-splitting-chunk-graph-and-the-splitchunks-optimization-be739a861366
-      splitChunks: {
-        chunks: 'all',
-        name: false,
-        // name(module, chunks, cacheGroupKey) {
-        //   const moduleFileName = module.identifier().split('/').reduceRight(item => item);
-        //   const allChunksNames = chunks.map((item) => item.name).join('~');
-        //   return `${cacheGroupKey}-${allChunksNames}-${moduleFileName}`;
-        // },
-      },
+      // splitChunks: {
+      //   chunks: 'all',
+      //   name: false,
+      //   // name(module, chunks, cacheGroupKey) {
+      //   //   const moduleFileName = module.identifier().split('/').reduceRight(item => item);
+      //   //   const allChunksNames = chunks.map((item) => item.name).join('~');
+      //   //   return `${cacheGroupKey}-${allChunksNames}-${moduleFileName}`;
+      //   // },
+      // },
       // Keep the runtime chunk separated to enable long term caching
       // https://twitter.com/wSokra/status/969679223278505985
       // https://github.com/facebook/create-react-app/issues/5358
@@ -550,7 +550,8 @@ module.exports = function (webpackEnv) {
                     files: assets,
                     options
                   },
-                  module
+                  module,
+                  title: entryMap[module] || 'React App'
                 };
               },
             },
@@ -707,7 +708,7 @@ module.exports = function (webpackEnv) {
     // Turn off performance processing because we utilize
     // our own hints via the FileSizeReporter
     performance: false,
-    externals(context, request, callback,a) {
+    externals(context, request, callback, a) {
 
       // const getNodeExternal = target => `commonjs${target}`
       const getNodeExternal = target => `require("${target}")`

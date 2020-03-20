@@ -25,28 +25,19 @@ const App = withRouter(function (props) {
     // Hooks.useLogin(`http://${`transfer.lian-med.com:9987`}/api`, { username: 'admin', password: 'admin' }, () => {
     //     setOk(true)
     // })
+    // const s = 'transfer.lian-med.com'
+    const s = '192.168.123.56'
+    const n = location.slice(1)
     useEffect(() => {
-        request.authenticate({ username: 'admin', password: 'admin' }, { prefix: `http://${`transfer.lian-med.com:9987`}/api` }).then(() => {
+        request.authenticate({ username: n, password: n }, { prefix: `http://${s}:9987/api` }).then(() => {
             setOk(true)
         })
     }, [])
 
     return (
         <Layout>
-            <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    onSelect={e => setSelectedKey(e.key)}
-                    selectedKeys={[selectedKey]}
-                    style={{ lineHeight: '64px' }}
-                >
-                    <Menu.Item key="/"><Link to="/">待诊列表</Link></Menu.Item>
-                    <Menu.Item key="/History"><Link to="/History">判图历史</Link></Menu.Item>
-                    {/* <Menu.Item key="3">nav 3</Menu.Item> */}
-                </Menu>
-            </Header>
-            <Content className="site-layout" style={{ height: 'calc(100vh - 64px)', marginTop: 64 }}>
+
+            <Content className="site-layout" style={{ height: 'calc(100vh)' }}>
 
                 {ok && props.children}
             </Content>
