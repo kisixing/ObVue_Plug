@@ -7,61 +7,27 @@ import { Ctg_Layout } from "@lianmed/pages";
 import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
 import { IContact, IMessage } from '@lianmed/im/lib/hooks/new/types';
 import TextArea from 'antd/lib/input/TextArea';
+import { emojiMap } from "@lianmed/im";
+
 interface IProps {
 
-    current: IContact
-    currentMessage: IMessage[]
-    sendTextMessage: (a: string, b: string) => void
+    message: IMessage
 }
+type t = typeof emojiMap
+type g = keyof t
 export function Message(props: IProps) {
-    const { current, currentMessage, sendTextMessage } = props
-    const [text, setText] = useState('')
+    const { message } = props
     const ref = useRef<TextArea>(null)
-    const init = () => {
-
-    }
-    useEffect(() => {
-        init()
-
-    }, [])
+    const m = message.msg.replace(/\[.*?\]/g, (a) => (
+        `<img src="${emojiMap[a as g]}" />`
+    ))
     return (
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', background: 'rgba(248,248,248)', }}>
+        <div >
             {
-                current && <div style={{ lineHeight: '50px', height: 50, borderBottom: '1px solid #eee' }}>
-                    {current.name}
-                </div>
+                !!message.isHead && <div style={{ clear: 'both', textAlign: 'center' }}>{new Date(message.timestamp || 0).toLocaleString()}</div>
             }
-            <div style={{ flex: 1, padding: 6, overflowY: current ? 'scroll' : 'unset' }}>
-                {
-                    currentMessage.map(_ => {
-                        return (
-                            <>
-                                {
-                                    !!_.isHead && <div style={{ clear: 'both', textAlign: 'center' }}>{_.timestamp}</div>
-                                }
-                                <div key={_.id} style={{ padding: 4, lineHeight: '28px', margin: '2px 0', float: _.bySelf ? 'right' : 'left', clear: 'both', background: _.bySelf ? 'skyblue' : '#fff', color: _.bySelf ? '#fff' : '#333' }}>
-                                    {_.msg}
-                                </div>
-                            </>
-                        )
-                    })
-                }
-            </div>
-            <div style={{ height: 100, position: 'relative' }}>
-                <Input.TextArea ref={ref} value={text} style={{ width: '100%', height: '100%', border: 0 }} onChange={e => setText(e.target.value)} />
-                <Button.Group style={{ position: 'absolute', right: 12, bottom: 12 }}>
-                    <Button
-                        type="primary"
-                        onClick={() => {
-                            sendTextMessage(current.name, text)
-                            setText('')
-                            ref.current && ref.current.focus()
-
-                        }}
-                        disabled={!current}
-                    >发送</Button>
-                    <Button icon={<SmileOutlined />} disabled={!current} />
-                </Button.Group>
+            <div style={{ padding: 4, lineHeight: '28px', margin: '2px 0', float: message.bySelf ? 'right' : 'left', clear: 'both', background: message.bySelf ? 'skyblue' : '#fff', color: message.bySelf ? '#fff' : '#333' }}>
+                <span dangerouslySetInnerHTML={{ __html: m }}></span>
             </div>
         </div>
     );

@@ -4,15 +4,17 @@ import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
 import { useI } from "@lianmed/im";
 import { Contact } from './Contact'
 import { Info } from './Info'
-import { Message } from './Message'
+import { ChattingPanel } from './ChattingPanel'
+import { s } from "../../../Layout";
 interface IProps {
     data?: IItemData[]
     heigth?: number
     listLayout?: number[]
-    
+
 }
 export function Chat(props: IProps) {
-    const { chatMessage, contacts, current, currentMessage, setCurrentId, sendTextMessage } = useI()
+    const { chatMessage, contacts, current, currentMessage, setCurrentId, sendTextMessage } = useI(`${s}:9987`)
+
     const init = () => {
 
     }
@@ -23,7 +25,7 @@ export function Chat(props: IProps) {
     return (
         < >
             <Contact contacts={contacts} setCurrentId={setCurrentId} current={current} />
-            <Message current={current} currentMessage={currentMessage} sendTextMessage={sendTextMessage} />
+            <ChattingPanel current={current} currentMessage={currentMessage} sendTextMessage={sendTextMessage} />
             <Info />
         </>
     );

@@ -8,6 +8,9 @@ import { Hooks } from "@lianmed/utils";
 import { Switch, Route, HashRouter, withRouter } from "react-router-dom";
 
 const { Header, Content, Footer } = Layout;
+// export const s = 'transfer.lian-med.com'
+export const s = 'transfer.lian-med.com'
+
 const App = withRouter(function (props) {
     const location = props.location.pathname
     const [selectedKey, setSelectedKey] = useState(location)
@@ -26,10 +29,8 @@ const App = withRouter(function (props) {
     //     setOk(true)
     // })
     // const s = 'transfer.lian-med.com'
-    const s = '192.168.123.56'
-    const n = location.slice(1)
     useEffect(() => {
-        request.authenticate({ username: n, password: n }, { prefix: `http://${s}:9987/api` }).then(() => {
+        request.authenticate({ username: 'admin', password: 'admin' }, { prefix: `http://${s}:9987/api` }).then(() => {
             setOk(true)
         })
     }, [])
