@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import request from "@lianmed/request";
 import { Col, Pagination } from 'antd';
 import { remote } from "@lianmed/f_types";
@@ -11,12 +11,18 @@ interface IProps {
     data?: IItemData[]
     heigth?: number
     listLayout?: number[]
+    showPage?: boolean
 }
 export function List(props: IProps) {
-    const { data = [], listLayout = [2, 2], heigth = 0 } = props
+    const { data = [], listLayout = [2, 2], heigth = 0, showPage = false } = props
     const [dat, setDat] = useState<remote.serviceorders.get[]>([])
     const [items, setItems] = useState<IItemData[]>(data)
-    const [contentHeight, setcontentHeight] = useState(heigth || (document.querySelector('main') || { clientHeight: 0 }).clientHeight)
+    const ref = useRef<HTMLDivElement>(null)
+    const [contentHeight, setcontentHeight] = useState(0)
+    useEffect(() => {
+        const h = ref.current && ref.current.getBoundingClientRect()
+        h && setcontentHeight(heigth || h.height)
+    }, [])
     const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(0)
     const init = () => {
@@ -64,14 +70,17 @@ export function List(props: IProps) {
     }, [page])
     return (
         <div style={{ height: '100%' }}>
-            <div style={{ height: 'calc(100% - 50px)' }}>
+            <div style={{ height: 'calc(100% - 50px)' }} ref={ref}>
                 <Ctg_Layout loading={loading} RenderIn={ToolBar} items={items} contentHeight={contentHeight} listLayout={listLayout} />
             </div>
-            <Pagination
-                style={{ margin: 9, float: 'right' }}
-                onChange={e => setPage(e + 1)}
-                total={dat.length}
-            />
+            {
+                showPage && <Pagination
+                    style={{ marginBottom: 9, float: 'right' }}
+                    onChange={e => setPage(e + 1)}
+                    defaultCurrent={1}
+                    total={dat.length}
+                />
+            }
         </div>
     );
 }

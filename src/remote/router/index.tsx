@@ -10,7 +10,7 @@ export const Router: React.FC = props => {
             <Layout>
                 <Switch>
                     <Route path="/" exact >
-                        <List />
+                        <List showPage={true}/>
                     </Route>
                     <Route path="/History">
                         <History />

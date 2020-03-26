@@ -13,7 +13,8 @@ interface IProps {
 
 }
 export function Chat(props: IProps) {
-    const { chatMessage, contacts, current, currentMessage, setCurrentId, sendTextMessage } = useI(`${s}:9987`)
+    //@ts-ignore
+    const { chatMessage, contacts, current, currentMessage, setCurrentId, sendTextMessage } = useI(window.stomp_url)
 
     const init = () => {
 

@@ -18,7 +18,7 @@ export function Info(props: IProps) {
 
     }, [])
     return (
-        <div style={{ width: 400,borderLeft:'#eee' }}>
+        <div style={{ width: 400,borderLeft:'1px solid #eee' }}>
             111
         </div>
     );

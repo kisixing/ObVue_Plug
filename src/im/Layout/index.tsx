@@ -30,9 +30,14 @@ const App = withRouter(function (props) {
     // })
     // const s = 'transfer.lian-med.com'
     useEffect(() => {
-        request.authenticate({ username: 'admin', password: 'admin' }, { prefix: `http://${s}:9987/api` }).then(() => {
-            setOk(true)
-        })
+        // request.authenticate({ username: 'admin', password: 'admin' }, { prefix: `http://${s}:9987/api` }).then(() => {
+        //     setOk(true)
+        // })
+        const d = request.configFromLocation()
+        const { stomp_url } = d
+        // @ts-ignore
+        window.stomp_url = stomp_url
+        setOk(true)
     }, [])
 
     return (

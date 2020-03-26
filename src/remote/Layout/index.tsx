@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './index.css';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import { ipcRenderer, remote } from "electron";
-import { config } from "@lianmed/request";
+import request from "@lianmed/request";
 import { Link } from 'react-router-dom';
 import { Hooks } from "@lianmed/utils";
 import { Switch, Route, HashRouter, withRouter } from "react-router-dom";
@@ -22,10 +22,13 @@ const App = withRouter(function (props) {
     //     })
     //     !configed && main.send('getToken')
     // }, [])
-    Hooks.useLogin(`http://${`transfer.lian-med.com:9987`}/api`, { username: 'admin', password: 'admin' }, () => {
+    useEffect(() => {
+        // request.authenticate({ username: 'admin', password: 'admin' }, { prefix: `http://${s}:9987/api` }).then(() => {
+        //     setOk(true)
+        // })
+        request.configFromLocation()
         setOk(true)
-    })
-    console.log('zz', require('@lianmed/utils'))
+    }, [])
 
     return (
         <Layout>
