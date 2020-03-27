@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import request from "@lianmed/request";
 import { Col, Pagination } from 'antd';
 import { remote } from "@lianmed/f_types";
-import { Ctg_Layout } from "@lianmed/pages";
+import { Ctg_Layout as CtgLayout } from "@lianmed/pages";
 import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
 import ToolBar from "./ToolBar/index";
 import { event } from '@lianmed/utils';
@@ -71,13 +71,14 @@ export function List(props: IProps) {
     return (
         <div style={{ height: '100%' }}>
             <div style={{ height: 'calc(100% - 50px)' }} ref={ref}>
-                <Ctg_Layout loading={loading} RenderIn={ToolBar} items={items} contentHeight={contentHeight} listLayout={listLayout} />
+                <CtgLayout loading={loading} RenderIn={ToolBar} items={items} contentHeight={contentHeight} listLayout={listLayout} />
             </div>
             {
                 showPage && <Pagination
                     style={{ marginBottom: 9, float: 'right' }}
-                    onChange={e => setPage(e + 1)}
-                    defaultCurrent={1}
+                    onChange={e => setPage(e - 1)}
+                    current={page + 1}
+                    pageSize={4}
                     total={dat.length}
                 />
             }
