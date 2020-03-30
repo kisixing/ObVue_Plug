@@ -13,7 +13,7 @@ const { Header, Sider, Content } = Layout;
 
 export default () => {
   const [collapsed, setCollapsed] = useState(false)
-  const [name, setName] = useState('im')
+  const [name, setName] = useState('')
   const [ok, setOk] = useState(false)
 
   const toggle = () => {
@@ -59,7 +59,7 @@ export default () => {
             background: '#fff'
           }}
         >
-          {ok && <iframe frameBorder="0" height="100%" width="100%" src={request.configToLocation(`http://localhost:3000/${name}/index.html`, { stomp_url: 'transfer.lian-med.com:9987' })} />}
+          {ok && name && <iframe title="zz" frameBorder="0" height="100%" width="100%" src={request.configToLocation(`http://localhost:3000/${name}/index.html`, { stomp_url: 'transfer.lian-med.com:9987' })} />}
         </Content>
       </Layout>
     </Layout>
