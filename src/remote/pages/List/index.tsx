@@ -17,6 +17,7 @@ export function List(props: IProps) {
     const { data = [], listLayout = [2, 2], heigth = 0, showPage = false } = props
     const [dat, setDat] = useState<remote.serviceorders.get[]>([])
     const [items, setItems] = useState<IItemData[]>(data)
+    const [size, setSize] = useState(0)
     const ref = useRef<HTMLDivElement>(null)
     const [contentHeight, setcontentHeight] = useState(0)
     useEffect(() => {
@@ -25,6 +26,12 @@ export function List(props: IProps) {
     }, [])
     const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(0)
+
+    useEffect(() => {
+        request.get('/serviceorders?type.equals=CTGAPPLY&diagnosis.specified=false').then(r => {
+            r && setSize(r.length)
+        })
+    }, [])
     const init = () => {
         if (data.length) return
         setLoading(true)
@@ -79,7 +86,7 @@ export function List(props: IProps) {
                     onChange={e => setPage(e - 1)}
                     current={page + 1}
                     pageSize={4}
-                    total={dat.length}
+                    total={size}
                 />
             }
         </div>

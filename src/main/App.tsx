@@ -20,9 +20,16 @@ export default () => {
     setCollapsed(!collapsed)
 
   };
+  // eslint-disable-next-line no-restricted-globals
+  const url = new URL(location.href) // token, prefix
+  const token = url.searchParams.get('token') as string
+  const prefix = url.searchParams.get('prefix')
+  const public_url = url.searchParams.get('public_url')
+
   useEffect(() => {
-    request.config({ prefix: 'transfer.lian-med.com:9987/api' })
-    request.authenticate({ password: 'admin', username: 'admin' }).then(r => setOk(true))
+
+    request.config({ prefix: prefix || 'transfer.lian-med.com:9987/api', Authorization: token })
+    token ? (setOk(true)) : request.authenticate({ password: 'admin', username: 'admin' }).then(r => setOk(true))
   }, [])
   return (
     <Layout style={{ height: '100vh' }}>
@@ -45,12 +52,7 @@ export default () => {
         </Menu>
       </Sider>
       <Layout className="site-layout">
-        <Header className="site-layout-background" style={{ padding: 0 }}>
-          {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-            className: 'trigger',
-            onClick: toggle,
-          })}
-        </Header>
+
         <Content
           className="site-layout-background"
           style={{
@@ -59,7 +61,7 @@ export default () => {
             background: '#fff'
           }}
         >
-          {ok && name && <iframe title="zz" frameBorder="0" height="100%" width="100%" src={request.configToLocation(`http://localhost:3000/${name}/index.html`, { stomp_url: 'transfer.lian-med.com:9987' })} />}
+          {ok && name && <iframe title="zz" frameBorder="0" height="100%" width="100%" src={request.configToLocation(`http://${public_url || 'localhost:3000'}/${name}/index.html`, { stomp_url: 'transfer.lian-med.com:9987' })} />}
         </Content>
       </Layout>
     </Layout>
