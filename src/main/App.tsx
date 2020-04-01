@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Layout, Menu } from 'antd';
 import {
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
   UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
 } from '@ant-design/icons';
 import request from "@lianmed/request";
 import 'antd/dist/antd.css'
@@ -18,7 +14,6 @@ export default () => {
 
   const toggle = () => {
     setCollapsed(!collapsed)
-
   };
   // eslint-disable-next-line no-restricted-globals
   const url = new URL(location.href) // token, prefix

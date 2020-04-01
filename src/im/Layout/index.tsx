@@ -34,9 +34,13 @@ const App = withRouter(function (props) {
         //     setOk(true)
         // })
         const d = request.configFromLocation()
-        const { stomp_url } = d
-        // @ts-ignore
-        window.stomp_url = stomp_url
+        const { stomp_url, prefix = stomp_url } = d
+        try {
+            // @ts-ignore
+            window.stomp_url = new URL(prefix as string).host
+        } catch (e) {
+            console.error(e)
+        }
         setOk(true)
     }, [])
 
