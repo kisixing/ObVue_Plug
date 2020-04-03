@@ -5,7 +5,8 @@ import { ipcRenderer, remote } from "electron";
 import request from "@lianmed/request";
 import { Link } from 'react-router-dom';
 import { Hooks } from "@lianmed/utils";
-import { Switch, Route, HashRouter, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import Container from "../../../src/components/Container";
 
 const { Header, Content, Footer } = Layout;
 const App = withRouter(function (props) {
@@ -31,25 +32,28 @@ const App = withRouter(function (props) {
     }, [])
 
     return (
-        <Layout>
-            <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    onSelect={e => setSelectedKey(e.key)}
-                    selectedKeys={[selectedKey]}
-                    style={{ lineHeight: '64px' }}
-                >
-                    <Menu.Item key="/"><Link to="/">待诊列表</Link></Menu.Item>
-                    <Menu.Item key="/History"><Link to="/History">判图历史</Link></Menu.Item>
-                    {/* <Menu.Item key="3">nav 3</Menu.Item> */}
-                </Menu>
-            </Header>
-            <Content className="site-layout" style={{ height: 'calc(100vh - 64px)', marginTop: 64 }}>
+        <Container>
+            <Layout>
+                <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+                    <Menu
+                        theme="dark"
+                        mode="horizontal"
+                        onSelect={e => setSelectedKey(e.key)}
+                        selectedKeys={[selectedKey]}
+                        style={{ lineHeight: '64px' }}
+                    >
+                        <Menu.Item key="/"><Link to="/">待诊列表</Link></Menu.Item>
+                        <Menu.Item key="/History"><Link to="/History">判图历史</Link></Menu.Item>
+                        {/* <Menu.Item key="3">nav 3</Menu.Item> */}
+                    </Menu>
+                </Header>
+                <Content className="site-layout" style={{ height: 'calc(100vh - 64px)', marginTop: 64 }}>
 
-                {ok && props.children}
-            </Content>
-        </Layout>
+                    {ok && props.children}
+                </Content>
+            </Layout>
+
+        </Container>
     );
 })
 

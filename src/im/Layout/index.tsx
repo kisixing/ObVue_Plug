@@ -6,6 +6,7 @@ import request, { config } from "@lianmed/request";
 import { Link } from 'react-router-dom';
 import { Hooks } from "@lianmed/utils";
 import { Switch, Route, HashRouter, withRouter } from "react-router-dom";
+import Container from "../../../src/components/Container";
 
 const { Header, Content, Footer } = Layout;
 // export const s = 'transfer.lian-med.com'
@@ -45,13 +46,16 @@ const App = withRouter(function (props) {
     }, [])
 
     return (
-        <Layout>
+        <Container>
 
-            <Content className="site-layout" style={{ height: 'calc(100vh)' }}>
+            <Layout>
 
-                {ok && props.children}
-            </Content>
-        </Layout>
+                <Content className="site-layout" style={{ height: 'calc(100vh)' }}>
+
+                    {ok && props.children}
+                </Content>
+            </Layout>
+        </Container>
     );
 })
 

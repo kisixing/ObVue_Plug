@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Layout, Menu } from 'antd';
+import React, { useEffect, useState,useRef } from "react";
+import { Menu,Layout } from 'antd';
 import {
   UserOutlined,
 } from '@ant-design/icons';
@@ -15,12 +15,15 @@ export default () => {
   const toggle = () => {
     setCollapsed(!collapsed)
   };
+  const i = useRef<HTMLIFrameElement>(null)
   // eslint-disable-next-line no-restricted-globals
   const url = new URL(location.href) // token, prefix
   const token = url.searchParams.get('token') as string
   const prefix = url.searchParams.get('prefix')
   const public_url = url.searchParams.get('public_url')
-
+  useEffect(() => {
+    console.log(name,i)
+  }, [name,i])
   useEffect(() => {
 
     request.config({ prefix: prefix || 'transfer.lian-med.com:9987/api', Authorization: token })
@@ -56,7 +59,7 @@ export default () => {
             background: '#fff'
           }}
         >
-          {ok && name && <iframe title="zz" frameBorder="0" height="100%" width="100%" src={request.configToLocation(`http://${public_url || 'localhost:3000'}/${name}/index.html`, { stomp_url: 'transfer.lian-med.com:9987' })} />}
+          {ok && name && <iframe ref={i} title="zz" frameBorder="0" height="100%" width="100%" src={request.configToLocation(`http://${public_url || 'localhost:3000'}/${name}/index.html`, { stomp_url: 'transfer.lian-med.com:9987' })} />}
         </Content>
       </Layout>
     </Layout>
