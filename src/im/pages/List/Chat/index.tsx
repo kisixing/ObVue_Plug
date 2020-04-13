@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-
-import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
 import { useI } from "@lianmed/im";
-import { Contact } from './Contact'
-import { Info } from './Info'
-import { ChattingPanel } from './ChattingPanel'
-import { s } from "../../../Layout";
+import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
+import React, { useEffect } from 'react';
+import { ChattingPanel } from './ChattingPanel';
+import { Contact } from './Contact';
+import { Info } from './Info';
+
 interface IProps {
     data?: IItemData[]
     heigth?: number
@@ -21,7 +20,6 @@ export function Chat(props: IProps) {
     }
     useEffect(() => {
         init()
-
     }, [])
     return (
         < >

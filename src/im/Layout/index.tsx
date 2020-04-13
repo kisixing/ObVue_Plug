@@ -1,12 +1,9 @@
+import request from "@lianmed/request";
+import { Layout } from 'antd';
 import React, { useEffect, useState } from 'react';
-import './index.css';
-import { Layout, Menu, Breadcrumb } from 'antd';
-import { ipcRenderer, remote } from "electron";
-import request, { config } from "@lianmed/request";
-import { Link } from 'react-router-dom';
-import { Hooks } from "@lianmed/utils";
-import { Switch, Route, HashRouter, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import Container from "../../../src/components/Container";
+import './index.css';
 
 const { Header, Content, Footer } = Layout;
 // export const s = 'transfer.lian-med.com'
@@ -35,10 +32,10 @@ const App = withRouter(function (props) {
         //     setOk(true)
         // })
         const d = request.configFromLocation()
-        const { stomp_url, prefix = stomp_url } = d
+        const { stomp_url, prefix = stomp_url } = d as { stomp_url: string, prefix: string }
         try {
             // @ts-ignore
-            window.stomp_url = new URL(prefix as string).host
+            window.stomp_url = new URL(prefix.includes('://')?prefix:`http://${prefix}`).host
         } catch (e) {
             console.error(e)
         }
