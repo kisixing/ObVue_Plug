@@ -27,14 +27,12 @@ export function List(props: IProps) {
     const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(0)
 
-    useEffect(() => {
-        request.get('/serviceorders?type.equals=CTGAPPLY&diagnosis.specified=false').then(r => {
-            r && setSize(r.length)
-        })
-    }, [])
     const init = () => {
         if (data.length) return
         setLoading(true)
+        request.get('/serviceorders/count?type.equals=CTGAPPLY&diagnosis.specified=false').then((n) => {
+            setSize(n)
+        })
         request.get(`/serviceorders?type.equals=CTGAPPLY&diagnosis.specified=false&size=4&page=${page}`).then((r: remote.serviceorders.get[]) => {
             setDat(r)
             Promise.all(r.map(_ => {
@@ -46,13 +44,16 @@ export function List(props: IProps) {
 
                     const _items = r.map((_, index) => {
                         const note = _.prenatalvisit.ctgexam.note
+                        _.pregnancy.gestationalWeek = _.prenatalvisit.gestationalWeek
+                        _.pregnancy.GP = `${_.pregnancy.gravidity}/${_.pregnancy.parity}`
                         const data: IItemData = {
                             id: _.id,
                             bedname: '',
                             data: {
                                 ...d[index],
                                 pregnancy: _.pregnancy,
-                                docid: note
+                                docid: note,
+                                selectBarHidden: true
                             },
                             unitId: '',
                             prenatalvisit: _.prenatalvisit,

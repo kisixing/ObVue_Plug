@@ -17,7 +17,9 @@ export const ShowAnalyse: FunctionComponent<IPropsWithData> = (props) => {
     const docid = itemData && itemData.data?.docid
     const name = pregnancy && pregnancy.name
     const age = pregnancy && pregnancy.age
-    const gestationalWeek = pregnancy && pregnancy.gestationalWeek
+    const telephone = pregnancy && pregnancy.telephone
+    const GP = pregnancy && pregnancy.GP
+    const gestationalWeek = prenatalvisit && prenatalvisit.gestationalWeek
     const startdate = prenatalvisit && prenatalvisit.visitDate
     // const fetalcount
     // const age = pregnancy && pregnancy.age
@@ -33,11 +35,16 @@ export const ShowAnalyse: FunctionComponent<IPropsWithData> = (props) => {
             window.open(filePath)
         }
     }
+    const spanStyle = {marginRight:8}
     const Title = () => {
         return (
             <div>
-                <span>姓名：{name}</span>
-                <span>docid：{data && data.docid}</span>
+                <span style={spanStyle}>姓名：{name}</span>
+                <span style={spanStyle}>年龄：{age}</span>
+                <span style={spanStyle}>孕周：{gestationalWeek}</span>
+                <span style={spanStyle}>手机：{telephone}</span>
+                <span style={spanStyle}>G/P：{GP}</span>
+                <span style={spanStyle}>docid：{data && data.docid}</span>
             </div>
         )
     }
@@ -55,7 +62,7 @@ export const ShowAnalyse: FunctionComponent<IPropsWithData> = (props) => {
     return (
         <>
             <Button type="link" icon={<UserOutlined />} onClick={toggle}>判图</Button>
-            <Modal maskClosable={false} getContainer={false} footer={null} title={<Title />} width='80vw' style={{ minWidth: 1000 }} centered bodyStyle={{ width: '100%', height: '80vh' }} visible={visible} onCancel={toggle}>
+            <Modal maskClosable={false} getContainer={false} footer={null} title={<Title />} destroyOnClose width='98vw' style={{ minWidth: 1000 }} centered bodyStyle={{ width: '100%', height: '80vh' }} visible={visible} onCancel={toggle}>
                 <CtgAnalyse name={name} startdate={startdate} fetalcount={0}  inpatientNO={''} age={age}  gestationalWeek={gestationalWeek} onDownload={print} docid={data && data.docid} id={id} type="remote" />
             </Modal>
         </>

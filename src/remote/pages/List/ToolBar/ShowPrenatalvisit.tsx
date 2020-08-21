@@ -15,7 +15,7 @@ export const ShowPrenatalvisit: FunctionComponent<IPropsWithData> = (props) => {
     return (
         <>
             <Button type="link" icon={<UserOutlined />} onClick={toggle}>档案</Button>
-            <Modal getContainer={false} visible={visible} onCancel={toggle}>
+            <Modal getContainer={false} visible={visible} onCancel={toggle} footer={null} destroyOnClose>
                 <Form>
                     <Form.Item label="姓名">
                         <span>{pregnancy && pregnancy.name}</span>
@@ -23,11 +23,11 @@ export const ShowPrenatalvisit: FunctionComponent<IPropsWithData> = (props) => {
                     <Form.Item label="年龄">
                         <span>{pregnancy && pregnancy.age}</span>
                     </Form.Item>
-                    <Form.Item label="GP">
+                    <Form.Item label="G/P">
                         <span>{pregnancy && pregnancy.GP}</span>
                     </Form.Item>
                     <Form.Item label="孕周">
-                        <span>{pregnancy && pregnancy.gestationalWeek}</span>
+                        <span>{prenatalvisit && prenatalvisit.gestationalWeek}</span>
                     </Form.Item>
                     <Form.Item label="历史诊断">
                         {

@@ -5,7 +5,7 @@ import { remote } from "@lianmed/f_types";
 import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
 
 import { List } from "../List";
-import { event } from '@lianmed/utils';
+import { event, formatTime } from '@lianmed/utils';
 import { ANALYSE_SUCCESS_TYPE } from '@lianmed/pages';
 type t = remote.serviceorders.get
 const getColumns = (fn: (b: t) => void) => {
@@ -55,7 +55,8 @@ const getColumns = (fn: (b: t) => void) => {
           text = ''
         }
         return <span>{text}</span>
-      }
+      },
+      ellipsis: true,
     },
     {
       title: '医嘱',
@@ -64,6 +65,9 @@ const getColumns = (fn: (b: t) => void) => {
     {
       title: '支付状态',
       dataIndex: 'paystate',
+      render(a: any, b: t) {
+        return a === 1 ? '已支付' : '未支付'
+      }
     },
     {
       title: '支付方式',
@@ -75,9 +79,16 @@ const getColumns = (fn: (b: t) => void) => {
       dataIndex: 'state',
     },
     {
+      title: '诊断时间',
+      dataIndex: 'diagnosisTime',
+      render(a: any, b: any) {
+        return <span>{formatTime(a)}</span>
+      }
+    },
+    {
       title: '档案详情',
       render(a: any, b: t) {
-        return <Button onClick={e => fn(b)}>查看</Button>
+        return <Button type="primary" onClick={e => fn(b)}>查看</Button>
       }
     }
   ];
@@ -94,23 +105,27 @@ export function History() {
   const init = () => {
     setLoading(true)
     setVisible(false)
-    request.get('/serviceorders?type.equals=CTGAPPLY&diagnosis.specified=false').then((r: t[]) => {
+    request.get('/serviceorders?type.equals=CTGAPPLY&diagnosis.specified=true&size=999').then((r: t[]) => {
       setDat(r)
     })
-    .finally(()=>setLoading(false))
+      .finally(() => setLoading(false))
   }
   const fn = useCallback(
     (_: t) => {
       setLoading(true)
       request.get(`/ctg-exams-data/${_.prenatalvisit.ctgexam.note}`).then(d => {
         const note = _.prenatalvisit.ctgexam.note
+        _.pregnancy.gestationalWeek = _.prenatalvisit.gestationalWeek
+        _.pregnancy.GP = `${_.pregnancy.gravidity}/${_.pregnancy.parity}`
 
         const target: IItemData = {
           id: _.id,
           data: {
             ...d,
             pregnancy: _.pregnancy,
-            docid: note
+            docid: note,
+            selectBarHidden: true
+
           },
           bedname: '',
           unitId: '',
@@ -134,7 +149,7 @@ export function History() {
   return (
     <div style={{ height: '100%', padding: 12 }} accessKey="id">
       <Table rowKey="id" bordered loading={loading} dataSource={dat} columns={columns} />
-      <Modal footer={null} maskClosable={false} title={`${item && item.pregnancy && item.pregnancy.name}的档案详情`} width={1000}  visible={visible} onCancel={() => setVisible(!visible)} destroyOnClose>
+      <Modal footer={null} maskClosable={false} title={`${item && item.pregnancy && item.pregnancy.name}的档案详情`} width={1000} visible={visible} onCancel={() => setVisible(!visible)} destroyOnClose>
         <List heigth={600} listLayout={[1, 1]} data={item ? [item] : []} />
       </Modal>
     </div>

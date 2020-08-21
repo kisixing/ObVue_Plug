@@ -72,9 +72,10 @@
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1"
   },
+  "proxy": "http://hdrm.lian-med.com:9989",
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node --max-old-space-size=2048 scripts/build.js && explorer build",
+    "build": "node --max-old-space-size=2048 scripts/build.js && bash deploy.sh && explorer build",
     "test": "node scripts/test.js",
     "link:lianmed": "npm link @lianmed/request @lianmed/lmg @lianmed/f_types @lianmed/utils @lianmed/pages @lianmed/im react",
     "postinstall": "yarn link:lianmed"

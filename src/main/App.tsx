@@ -26,7 +26,7 @@ export default () => {
   }, [name,i])
   useEffect(() => {
 
-    request.config({ prefix: prefix || 'transfer.lian-med.com:9987/api', Authorization: token })
+    request.config({ prefix: prefix || '/api', Authorization: token })
     token ? (setOk(true)) : request.authenticate({ password: 'admin', username: 'admin' }).then(r => setOk(true))
   }, [])
   return (
