@@ -14,10 +14,10 @@ const getColumns = (fn: (b: t) => void) => {
       title: '订单号',
       dataIndex: 'sn',
     },
-    {
-      title: '订单类型',
-      dataIndex: 'type',
-    },
+    // {
+    //   title: '订单类型',
+    //   dataIndex: 'type',
+    // },
     {
       title: '用户名',
       dataIndex: 'type',
@@ -25,17 +25,17 @@ const getColumns = (fn: (b: t) => void) => {
         return <span>{a.pregnancy && a.pregnancy.name}</span>
       }
     },
-    {
-      title: '联系方式',
-      dataIndex: 'type',
-      render(b: any, a: t) {
-        return <span>{a.pregnancy && a.pregnancy.telephone}</span>
-      }
-    },
-    {
-      title: '支付价格',
-      dataIndex: 'payment'
-    },
+    // {
+    //   title: '联系方式',
+    //   dataIndex: 'type',
+    //   render(b: any, a: t) {
+    //     return <span>{a.pregnancy && a.pregnancy.telephone}</span>
+    //   }
+    // },
+    // {
+    //   title: '支付价格',
+    //   dataIndex: 'payment'
+    // },
     {
       title: '订单发起时间',
       dataIndex: 'type',
@@ -57,11 +57,12 @@ const getColumns = (fn: (b: t) => void) => {
         return <span>{text}</span>
       },
       ellipsis: true,
+      width: 600
     },
-    {
-      title: '医嘱',
-      dataIndex: 'prescription',
-    },
+    // {
+    //   title: '医嘱',
+    //   dataIndex: 'prescription',
+    // },
     {
       title: '支付状态',
       dataIndex: 'paystate',
@@ -69,15 +70,15 @@ const getColumns = (fn: (b: t) => void) => {
         return a === 1 ? '已支付' : '未支付'
       }
     },
-    {
-      title: '支付方式',
-      dataIndex: 'paytype',
-    },
+    // {
+    //   title: '支付方式',
+    //   dataIndex: 'paytype',
+    // },
 
-    {
-      title: '服务状态',
-      dataIndex: 'state',
-    },
+    // {
+    //   title: '服务状态',
+    //   dataIndex: 'state',
+    // },
     {
       title: '诊断时间',
       dataIndex: 'diagnosisTime',

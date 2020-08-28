@@ -25,9 +25,10 @@ export const ShowAnalyse: FunctionComponent<IPropsWithData> = (props) => {
     // const age = pregnancy && pregnancy.age
     const [visible, setVisible] = useState(false)
     const toggle = () => setVisible(!visible)
-    const print = () => {
+    const print = (url: string) => {
         const prefix = request.configure.prefix
-        const filePath = `${prefix}/ctg-exams-pdfurl/${docid}`
+        const filePath = `${prefix}${url}`
+
         console.log('print', filePath)
         if (electron) {
             require('electron').ipcRenderer.send('printWindow', filePath)
@@ -35,7 +36,7 @@ export const ShowAnalyse: FunctionComponent<IPropsWithData> = (props) => {
             window.open(filePath)
         }
     }
-    const spanStyle = {marginRight:8}
+    const spanStyle = { marginRight: 8 }
     const Title = () => {
         return (
             <div>
@@ -63,7 +64,7 @@ export const ShowAnalyse: FunctionComponent<IPropsWithData> = (props) => {
         <>
             <Button type="link" icon={<UserOutlined />} onClick={toggle}>判图</Button>
             <Modal maskClosable={false} getContainer={false} footer={null} title={<Title />} destroyOnClose width='98vw' style={{ minWidth: 1000 }} centered bodyStyle={{ width: '100%', height: '80vh' }} visible={visible} onCancel={toggle}>
-                <CtgAnalyse name={name} startdate={startdate} fetalcount={0}  inpatientNO={''} age={age}  gestationalWeek={gestationalWeek} onDownload={print} docid={data && data.docid} id={id} type="remote" />
+                <CtgAnalyse name={name} startdate={startdate} fetalcount={0} inpatientNO={''} age={age} gestationalWeek={gestationalWeek} onDownload={print} docid={data && data.docid} id={id} type="remote" />
             </Modal>
         </>
     )
