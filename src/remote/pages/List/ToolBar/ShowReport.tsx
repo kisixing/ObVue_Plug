@@ -1,12 +1,12 @@
-import { RadarChartOutlined } from "@ant-design/icons";
-import { Ctg_Analyse as CtgAnalyse } from "@lianmed/pages";
+import { ProfileOutlined } from "@ant-design/icons";
+import { Ctg_Report as CtgAnalyse } from "@lianmed/pages";
 import { ANALYSE_SUCCESS_TYPE } from "@lianmed/pages/lib/Ctg/Analyse";
 import request from '@lianmed/request';
 import { event } from "@lianmed/utils";
 import { Button, Modal } from "antd";
 import React, { FunctionComponent, useEffect, useState } from "react";
 import { IPropsWithData } from "./interface";
-export const ShowAnalyse: FunctionComponent<IPropsWithData> = (props) => {
+export const ShowReport: FunctionComponent<IPropsWithData> = (props) => {
 
     const { itemData } = props
     const data = itemData && itemData.data
@@ -61,9 +61,10 @@ export const ShowAnalyse: FunctionComponent<IPropsWithData> = (props) => {
     }, [])
     return (
         <>
-            <Button type="link" icon={<RadarChartOutlined />} onClick={toggle}>判图</Button>
+            <Button type="link" icon={<ProfileOutlined />} onClick={toggle}>报告</Button>
             <Modal maskClosable={false} getContainer={false} footer={null} title={<Title />} destroyOnClose width='98vw' style={{ minWidth: 1000 }} centered bodyStyle={{ width: '100%', height: '80vh' }} visible={visible} onCancel={toggle}>
-                <CtgAnalyse  onDownload={print} docid={data && data.docid} id={id} type="remote" />
+                <CtgAnalyse print_interval={20} name={name || ''} startdate={startdate || ''} fetalcount={0} inpatientNO={''} age={age || ''} gestationalWeek={gestationalWeek} onDownload={print as any} docid={data?.docid || ''}  />
+
             </Modal>
         </>
     )

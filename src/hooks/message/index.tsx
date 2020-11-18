@@ -11,7 +11,7 @@ export const useMessage = () => {
         })
         if (window.electron) {
             const { ipcRenderer, remote } = require('electron')
-            ipcRenderer.on('message', (e, { data }: IData) => {
+            ipcRenderer.on('message', (e: any, { data }: IData) => {
                 console.log('message e', data)
             })
             const wins = remote.getGlobal('windows')

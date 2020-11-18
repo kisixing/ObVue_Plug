@@ -13,6 +13,11 @@
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
   <link rel="manifest" href="%PUBLIC_URL%/<%= module %>/manifest.json" />
+  <style>
+    body {
+      --customed-color:#fff;
+    }
+  </style>
   <script>
     window.electron = navigator.userAgent.toLowerCase().includes('electron')
   </script>

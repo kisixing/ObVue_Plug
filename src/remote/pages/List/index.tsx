@@ -30,20 +30,20 @@ export function List(props: IProps) {
     const init = () => {
         if (data.length) return
         setLoading(true)
-        request.get('/serviceorders/count?type.equals=CTGAPPLY&diagnosis.specified=false').then((n) => {
+        request.get<number>('/serviceorders/count?type.equals=CTGAPPLY&diagnosis.specified=false').then((n) => {
             setSize(n)
         })
-        request.get(`/serviceorders?type.equals=CTGAPPLY&diagnosis.specified=false&size=4&page=${page}`).then((r: remote.serviceorders.get[]) => {
+        request.get<remote.serviceorders.get[]>(`/serviceorders?type.equals=CTGAPPLY&diagnosis.specified=false&size=4&page=${page}`).then((r) => {
             setDat(r)
             Promise.all(r.map(_ => {
-                const note = _.prenatalvisit.ctgexam.note
+                const note = _.prenatalvisit?.ctgexam?.note
                 return request.get(`/ctg-exams-data/${note}`).catch(() => null)
             }))
                 .then(_ => _.filter(_ => !!_))
                 .then((d: any) => {
 
                     const _items = r.map((_, index) => {
-                        const note = _.prenatalvisit.ctgexam.note
+                        const note = _.prenatalvisit?.ctgexam?.note
                         _.pregnancy.gestationalWeek = _.prenatalvisit.gestationalWeek
                         _.pregnancy.GP = `${_.pregnancy.gravidity}/${_.pregnancy.parity}`
                         const data: IItemData = {

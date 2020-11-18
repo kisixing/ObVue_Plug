@@ -37,13 +37,6 @@ const getColumns = (fn: (b: t) => void) => {
     //   dataIndex: 'payment'
     // },
     {
-      title: '订单发起时间',
-      dataIndex: 'type',
-      render(b: any, a: t) {
-        return <span>{a.prenatalvisit && a.prenatalvisit.visitDate}</span>
-      }
-    },
-    {
       title: '诊断',
       dataIndex: 'diagnosis',
       render(b: any, a: t) {
@@ -59,15 +52,23 @@ const getColumns = (fn: (b: t) => void) => {
       ellipsis: true,
       width: 600
     },
-    // {
-    //   title: '医嘱',
-    //   dataIndex: 'prescription',
-    // },
+
+
     {
       title: '支付状态',
+      width: 120,
+
       dataIndex: 'paystate',
       render(a: any, b: t) {
         return a === 1 ? '已支付' : '未支付'
+      }
+    },
+    {
+      title: '订单发起时间',
+      width: 180,
+      dataIndex: 'type',
+      render(b: any, a: t) {
+        return <span>{a.prenatalvisit && a.prenatalvisit.visitDate}</span>
       }
     },
     // {
@@ -81,6 +82,8 @@ const getColumns = (fn: (b: t) => void) => {
     // },
     {
       title: '诊断时间',
+      width: 180,
+
       dataIndex: 'diagnosisTime',
       render(a: any, b: any) {
         return <span>{formatTime(a)}</span>
@@ -88,6 +91,7 @@ const getColumns = (fn: (b: t) => void) => {
     },
     {
       title: '档案详情',
+      width: 100,
       render(a: any, b: t) {
         return <Button type="primary" onClick={e => fn(b)}>查看</Button>
       }
@@ -106,7 +110,7 @@ export function History() {
   const init = () => {
     setLoading(true)
     setVisible(false)
-    request.get('/serviceorders?type.equals=CTGAPPLY&diagnosis.specified=true&size=999').then((r: t[]) => {
+    request.get<t[]>('/serviceorders?type.equals=CTGAPPLY&diagnosis.specified=true&size=999').then((r) => {
       setDat(r)
     })
       .finally(() => setLoading(false))
@@ -114,8 +118,8 @@ export function History() {
   const fn = useCallback(
     (_: t) => {
       setLoading(true)
-      request.get(`/ctg-exams-data/${_.prenatalvisit.ctgexam.note}`).then(d => {
-        const note = _.prenatalvisit.ctgexam.note
+      request.get<any>(`/ctg-exams-data/${_.prenatalvisit?.ctgexam?.note}`).then(d => {
+        const note = _.prenatalvisit?.ctgexam?.note
         _.pregnancy.gestationalWeek = _.prenatalvisit.gestationalWeek
         _.pregnancy.GP = `${_.pregnancy.gravidity}/${_.pregnancy.parity}`
 
@@ -150,8 +154,8 @@ export function History() {
   return (
     <div style={{ height: '100%', padding: 12 }} accessKey="id">
       <Table rowKey="id" bordered loading={loading} dataSource={dat} columns={columns} />
-      <Modal footer={null} maskClosable={false} title={`${item && item.pregnancy && item.pregnancy.name}的档案详情`} width={1000} visible={visible} onCancel={() => setVisible(!visible)} destroyOnClose>
-        <List heigth={600} listLayout={[1, 1]} data={item ? [item] : []} />
+      <Modal footer={null} bodyStyle={{ padding: 0 }} maskClosable={false} title={null && `${item && item.pregnancy && item.pregnancy.name}的档案详情`} width={1200} visible={visible} onCancel={() => setVisible(!visible)} destroyOnClose>
+        <List heigth={680} listLayout={[1, 1]} data={item ? [item] : []} />
       </Modal>
     </div>
   );

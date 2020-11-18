@@ -1,7 +1,6 @@
-import React, { useEffect, useState, FC } from 'react';
-import Layout from 'antd/lib/layout'
-import './index.css';
+import React, { FC } from 'react';
 import { useMessage } from '../../../src/hooks/message';
+import './index.css';
 
 const App: FC<{}> = function (props) {
 

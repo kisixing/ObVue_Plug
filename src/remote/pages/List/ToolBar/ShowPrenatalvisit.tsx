@@ -8,7 +8,7 @@ export const ShowPrenatalvisit: FunctionComponent<IPropsWithData> = (props) => {
     const data = itemData && itemData.data
     const pregnancy = itemData && itemData.pregnancy
     const prenatalvisit = itemData && itemData.prenatalvisit
-    const historyStr = (prenatalvisit && prenatalvisit.ctgexam.diagnosis) || '[]'
+    const historyStr = (prenatalvisit && prenatalvisit?.ctgexam?.diagnosis) || '[]'
     const history: { diagnosistxt: string }[] = JSON.parse(historyStr)
     const [visible, setVisible] = useState(false)
     const toggle = () => setVisible(!visible)
