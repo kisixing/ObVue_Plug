@@ -4,7 +4,7 @@ import { Badge, List, Avatar, Input, Button } from 'antd';
 import { SmileOutlined } from '@ant-design/icons';
 import { remote } from "@lianmed/f_types";
 import { Ctg_Layout } from "@lianmed/pages";
-import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
+import { ICtgLayoutItem } from '@lianmed/pages/lib/Ctg/Layout';
 import { IContact, IMessage } from '@lianmed/im/lib/hooks/new/types';
 import TextArea from 'antd/lib/input/TextArea';
 import { Emoji } from "./Emoji";

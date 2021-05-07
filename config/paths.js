@@ -53,6 +53,7 @@ try {
 } catch (error) {
   entry = []
 }
+console.log('entry',entry)
 // config after eject: we're in ./config/
 module.exports = {
   dotenv: resolveApp('.env'),

@@ -1,9 +1,8 @@
 import { SmileOutlined } from '@ant-design/icons';
-import { IContact, IMessage } from '@lianmed/im/lib/hooks/new/types';
+import { emojiMap } from "@lianmed/im";
 import { Button, Dropdown } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import React, { useRef, useState } from 'react';
-import { emojiMap } from "@lianmed/im";
 import styled from "styled-components";
 
 const Wrapper = styled.div`

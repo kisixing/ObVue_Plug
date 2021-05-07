@@ -3,12 +3,12 @@ import request from "@lianmed/request";
 import { Col, Pagination } from 'antd';
 import { remote } from "@lianmed/f_types";
 import { Ctg_Layout as CtgLayout } from "@lianmed/pages";
-import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
+import { ICtgLayoutItem } from '@lianmed/pages/lib/Ctg/Layout';
 import ToolBar from "./ToolBar/index";
 import { event } from '@lianmed/utils';
 import { ANALYSE_SUCCESS_TYPE } from '@lianmed/pages/lib/Ctg/Analyse';
 interface IProps {
-    data?: IItemData[]
+    data?: ICtgLayoutItem[]
     heigth?: number
     listLayout?: number[]
     showPage?: boolean
@@ -16,14 +16,14 @@ interface IProps {
 export function List(props: IProps) {
     const { data = [], listLayout = [2, 2], heigth = 0, showPage = false } = props
     const [dat, setDat] = useState<remote.serviceorders.get[]>([])
-    const [items, setItems] = useState<IItemData[]>(data)
+    const [items, setItems] = useState<ICtgLayoutItem[]>(data)
     const [size, setSize] = useState(0)
     const ref = useRef<HTMLDivElement>(null)
     const [contentHeight, setcontentHeight] = useState(0)
     useEffect(() => {
         const h = ref.current && ref.current.getBoundingClientRect()
         h && setcontentHeight(heigth || h.height)
-    }, [])
+    }, [heigth])
     const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(0)
 
@@ -46,7 +46,7 @@ export function List(props: IProps) {
                         const note = _.prenatalvisit?.ctgexam?.note
                         _.pregnancy.gestationalWeek = _.prenatalvisit.gestationalWeek
                         _.pregnancy.GP = `${_.pregnancy.gravidity}/${_.pregnancy.parity}`
-                        const data: IItemData = {
+                        const data: ICtgLayoutItem = {
                             id: _.id,
                             bedname: '',
                             data: {
@@ -55,7 +55,7 @@ export function List(props: IProps) {
                                 docid: note,
                                 selectBarHidden: true
                             },
-                            unitId: '',
+                            unitId: 'xx',
                             prenatalvisit: _.prenatalvisit,
                             pregnancy: _.pregnancy
                         }
@@ -79,7 +79,7 @@ export function List(props: IProps) {
     return (
         <div style={{ height: '100%' }}>
             <div style={{ height: 'calc(100% - 50px)' }} ref={ref}>
-                <CtgLayout loading={loading} RenderIn={ToolBar} items={items} contentHeight={contentHeight} listLayout={listLayout} />
+                <CtgLayout config={{ print_interval: 20 }} loading={loading} RenderIn={ToolBar} items={items} contentHeight={contentHeight} listLayout={listLayout} />
             </div>
             {
                 showPage && <Pagination

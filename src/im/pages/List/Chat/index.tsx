@@ -1,12 +1,12 @@
 import { useI } from "@lianmed/im";
-import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
+import { ICtgLayoutItem } from '@lianmed/pages';
 import React, { useEffect } from 'react';
 import { ChattingPanel } from './ChattingPanel';
 import { Contact } from './Contact';
 import { Info } from './Info';
 
 interface IProps {
-    data?: IItemData[]
+    data?: ICtgLayoutItem[]
     heigth?: number
     listLayout?: number[]
 

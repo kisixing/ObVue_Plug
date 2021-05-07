@@ -1,10 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import request from "@lianmed/request";
-import { Badge, List, Avatar } from 'antd';
-import { remote } from "@lianmed/f_types";
-import { Ctg_Layout } from "@lianmed/pages";
-import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
 import { IContact } from '@lianmed/im/lib/hooks/new/types';
+import { Avatar, Badge, List } from 'antd';
+import React, { useEffect } from 'react';
 interface IProps {
 
     contacts: IContact[]
@@ -22,7 +18,7 @@ export function Contact(props: IProps) {
 
     }, [])
     return (
-        <div style={{  width: 240, height: '100%', borderRight:'1px solid #eee'}}>
+        <div style={{ width: 240, height: '100%', borderRight: '1px solid #eee' }}>
             <List
 
                 itemLayout="horizontal"

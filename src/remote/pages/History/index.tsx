@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import request from "@lianmed/request";
-import { Table, Button, Modal } from 'antd';
 import { remote } from "@lianmed/f_types";
-import { IItemData } from '@lianmed/pages/lib/Ctg/Layout';
-
-import { List } from "../List";
-import { event, formatTime } from '@lianmed/utils';
 import { ANALYSE_SUCCESS_TYPE } from '@lianmed/pages';
+import { ICtgLayoutItem } from '@lianmed/pages/lib/Ctg/Layout';
+import request from "@lianmed/request";
+import { event, formatTime, usePage } from '@lianmed/utils';
+import { Button, Modal, Table, Tag } from 'antd';
+import React, { useCallback, useEffect, useState } from 'react';
+import { List } from "../List";
+
 type t = remote.serviceorders.get
+const size = 8
 const getColumns = (fn: (b: t) => void) => {
   return [
     {
@@ -23,7 +24,9 @@ const getColumns = (fn: (b: t) => void) => {
       dataIndex: 'type',
       render(b: any, a: t) {
         return <span>{a.pregnancy && a.pregnancy.name}</span>
-      }
+      },
+      width: 130,
+
     },
     // {
     //   title: '联系方式',
@@ -57,11 +60,11 @@ const getColumns = (fn: (b: t) => void) => {
     {
       title: '支付状态',
       width: 120,
-
       dataIndex: 'paystate',
       render(a: any, b: t) {
-        return a === 1 ? '已支付' : '未支付'
-      }
+        return a === 1 ? <Tag color="green">已支付</Tag> : <Tag color="yellow" >未支付</Tag>
+      },
+      align:"center" as any
     },
     {
       title: '订单发起时间',
@@ -93,7 +96,7 @@ const getColumns = (fn: (b: t) => void) => {
       title: '档案详情',
       width: 100,
       render(a: any, b: t) {
-        return <Button type="primary" onClick={e => fn(b)}>查看</Button>
+        return <Button size="small" type="primary" onClick={e => fn(b)}>查看</Button>
       }
     }
   ];
@@ -101,16 +104,30 @@ const getColumns = (fn: (b: t) => void) => {
 
 export function History() {
   const [dat, setDat] = useState<t[]>([])
-  const [item, setItem] = useState<IItemData>()
+  const [item, setItem] = useState<ICtgLayoutItem>()
   const [visible, setVisible] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [total, setTotal] = useState(0)
+  const [page, setPage] = useState(0)
+  const params = {
+    'type.equals': 'CTGAPPLY',
+    'diagnosis.specified': true,
+    size,
+    page: page
+  }
   useEffect(() => {
-
+    request.get<number>('/serviceorders/count', { params }).then(t => setTotal(t))
   }, [])
+
+
+
+
   const init = () => {
     setLoading(true)
     setVisible(false)
-    request.get<t[]>('/serviceorders?type.equals=CTGAPPLY&diagnosis.specified=true&size=999').then((r) => {
+    request.get<t[]>(`/serviceorders`, {
+      params
+    }).then((r) => {
       setDat(r)
     })
       .finally(() => setLoading(false))
@@ -123,7 +140,7 @@ export function History() {
         _.pregnancy.gestationalWeek = _.prenatalvisit.gestationalWeek
         _.pregnancy.GP = `${_.pregnancy.gravidity}/${_.pregnancy.parity}`
 
-        const target: IItemData = {
+        const target: ICtgLayoutItem = {
           id: _.id,
           data: {
             ...d,
@@ -133,7 +150,7 @@ export function History() {
 
           },
           bedname: '',
-          unitId: '',
+          unitId: 'xx',
           pregnancy: _.pregnancy,
           prenatalvisit: _.prenatalvisit,
         }
@@ -149,13 +166,17 @@ export function History() {
     return () => {
       event.off(ANALYSE_SUCCESS_TYPE, init)
     }
-  }, [])
+  }, [page])
   const columns = getColumns(fn)
   return (
     <div style={{ height: '100%', padding: 12 }} accessKey="id">
-      <Table rowKey="id" bordered loading={loading} dataSource={dat} columns={columns} />
-      <Modal footer={null} bodyStyle={{ padding: 0 }} maskClosable={false} title={null && `${item && item.pregnancy && item.pregnancy.name}的档案详情`} width={1200} visible={visible} onCancel={() => setVisible(!visible)} destroyOnClose>
-        <List heigth={680} listLayout={[1, 1]} data={item ? [item] : []} />
+      <Table rowKey="id" bordered loading={loading} dataSource={dat} columns={columns} pagination={{ total, pageSize: size, current: page + 1, onChange: p => setPage(p - 1) }} />
+      <Modal footer={null} bodyStyle={{ padding: 0, height: '70vh' }} maskClosable={false} title={null && `${item && item.pregnancy && item.pregnancy.name}的档案详情`} width={1200} visible={visible} onCancel={() => setVisible(!visible)} destroyOnClose>
+        {
+          visible ? (
+            <List heigth={680} listLayout={[1, 1]} data={item ? [item] : []} />
+          ) : null
+        }
       </Modal>
     </div>
   );
